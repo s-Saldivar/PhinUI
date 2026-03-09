@@ -1,7 +1,6 @@
 package com.example.phinui.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +35,7 @@ fun EventsScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Campus Events",
+                text = "Events",
                 fontSize = 28.sp,
                 color = NavText
             )
@@ -45,16 +44,16 @@ fun EventsScreen() {
 
             EventCard(
                 title = "Health Science Advising Sessions",
-                dateTime = "March 9 • 9:00 AM",
-                location = "del Norte Hall 1500"
+                dateTime = "Date: March 9\nTime: 9:00am",
+                location = "Location: del Norte Hall 1500"
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
             EventCard(
                 title = "Student Success Workshop",
-                dateTime = "March 10 • 2:00 PM",
-                location = "Bell Tower Courtyard"
+                dateTime = "Date: March 10\nTime: 9:00am",
+                location = "Location: Bell Tower Courtyard"
             )
         }
     }
