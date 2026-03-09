@@ -55,6 +55,28 @@ fun EventsScreen() {
                 dateTime = "Date: March 10\nTime: 9:00am",
                 location = "Location: Bell Tower Courtyard"
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            EventCard(
+                title = "Events 3 Name",
+                dateTime = "Date: TBD\nTime: TBD",
+                location = "Location: TBD"
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            EventCard(
+                title = "Events 4 Name",
+                dateTime = "Date: TBD\nTime: TBD",
+                location = "Location: TBD"
+            )
+
+            EventCard(
+                title = "Events 5 Name",
+                dateTime = "Date: TBD\nTime: TBD",
+                location = "Location: TBD"
+            )
         }
     }
 }
