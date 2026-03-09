@@ -14,7 +14,9 @@ import androidx.compose.ui.unit.dp
 import com.example.phinui.ui.components.HomeActionItem
 
 @Composable
-fun HomeDashboard(onOpenEvents: () -> Unit) {
+fun HomeDashboard(
+    onOpenEvents: () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally

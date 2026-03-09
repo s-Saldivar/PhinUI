@@ -5,14 +5,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,19 +24,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.phinui.navigation.AppDestinations
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.phinui.ui.navigation.Routes
 import com.example.phinui.ui.theme.Background
 import com.example.phinui.ui.theme.NavText
 import com.example.phinui.ui.theme.SelectedPill
 
+data class BottomNavItem(
+    val label: String,
+    val icon: ImageVector,
+    val route: String
+)
+
 @Composable
 fun CustomBottomBar(
-    currentDestination: AppDestinations,
-    onDestinationSelected: (AppDestinations) -> Unit
+    navController: NavHostController
 ) {
+    val navBackStackEntry = navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry.value?.destination?.route
+
+    val bottomItems = listOf(
+        BottomNavItem("Home", Icons.Default.Home, Routes.HOME),
+        BottomNavItem("Favorites", Icons.Default.Favorite, Routes.FAVORITES),
+        BottomNavItem("Profile", Icons.Default.AccountBox, Routes.PROFILE)
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,11 +63,18 @@ fun CustomBottomBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AppDestinations.entries.forEach { destination ->
+        bottomItems.forEach { item ->
             BottomBarItem(
-                destination = destination,
-                selected = destination == currentDestination,
-                onClick = { onDestinationSelected(destination) }
+                label = item.label,
+                icon = item.icon,
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        popUpTo(Routes.HOME) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }
@@ -54,7 +82,8 @@ fun CustomBottomBar(
 
 @Composable
 fun BottomBarItem(
-    destination: AppDestinations,
+    label: String,
+    icon: ImageVector,
     selected: Boolean,
     onClick: () -> Unit
 ) {
@@ -70,8 +99,8 @@ fun BottomBarItem(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = destination.icon,
-                contentDescription = destination.label,
+                imageVector = icon,
+                contentDescription = label,
                 tint = NavText,
                 modifier = Modifier.size(34.dp)
             )
@@ -80,7 +109,7 @@ fun BottomBarItem(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = destination.label,
+            text = label,
             fontSize = 18.sp,
             color = NavText,
             fontWeight = FontWeight.Medium
