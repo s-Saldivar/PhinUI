@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import com.example.phinui.navigation.AppDestinations
-import com.example.phinui.components.CustomBottomBar
-import com.example.phinui.screens.ScreenContent
+import com.example.phinui.ui.components.CustomBottomBar
+import com.example.phinui.ui.screens.ScreenContent
 import com.example.phinui.ui.theme.Background
 import com.example.phinui.ui.theme.PhinUITheme
 
@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun PhinUIApp() {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
+    var showEvents by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -44,13 +45,18 @@ fun PhinUIApp() {
         bottomBar = {
             CustomBottomBar(
                 currentDestination = currentDestination,
-                onDestinationSelected = { currentDestination = it }
+                onDestinationSelected = {
+                    currentDestination = it
+                    showEvents = false
+                }
             )
         }
     ) { innerPadding ->
         ScreenContent(
             modifier = Modifier.padding(innerPadding),
-            currentDestination = currentDestination
+            currentDestination = currentDestination,
+            showEvents = showEvents,
+            onOpenEvents = { showEvents = true }
         )
     }
 }
